@@ -25,6 +25,13 @@ var Intro = React.createClass({
         };
     },
 
+    // called when submit button hit on form
+    onFormButtonClick : function(e){
+        e.preventDefault();
+        var name = this.refs.first_name.value;
+        alert(name);
+    },
+
    // render is mandatory function that a component has to implement
    render : function(){
        // this is props
@@ -38,6 +45,12 @@ var Intro = React.createClass({
                 <h2> {message + '!'} </h2>
                 <h3>This is React</h3>
                 <p>It is an open-source JavaScript library for building user interfaces.</p>
+
+                <form onSubmit={this.onFormButtonClick}>
+                    <input type="text" ref="first_name"/>
+                    {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
+                    <button>Set Name</button>
+                </form>
             </div>
        );
    }
