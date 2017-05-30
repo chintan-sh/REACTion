@@ -20,22 +20,44 @@ var Intro = React.createClass({
     // default params in case no argument provided by user
     getDefaultProps : function(){
         return {
-            name : 'JOhn Doe',
+            name : 'John Doe',
             message : "Welcome"
         };
     },
 
+    // set initial state (this would mostly be default prop)
+    getInitialState : function(){
+        return{
+            name : this.props.name
+        };
+    },
+
     // called when submit button hit on form
-    onFormButtonClick : function(e){
+    onFormButtonClick : function(e) {
         e.preventDefault();
-        var name = this.refs.first_name.value;
-        alert(name);
+
+        // store reference of textbox
+        var nameRef = this.refs.firstName;
+
+        // extract value from textbox
+        var name = nameRef.value;
+
+        // make textbox empty after value extracted
+        nameRef.value = '';
+
+        // if value entered is not empty, then update state
+        if (typeof name === 'string' && name.length > 0) {
+            // update state with user entered value
+            this.setState({
+                name: name
+            });
+        }
     },
 
    // render is mandatory function that a component has to implement
    render : function(){
        // this is props
-       var name = this.props.name;
+       var name = this.state.name; // fetch new name every time state changes
        var message = this.props.message;
 
        // return JSX
@@ -47,7 +69,7 @@ var Intro = React.createClass({
                 <p>It is an open-source JavaScript library for building user interfaces.</p>
 
                 <form onSubmit={this.onFormButtonClick}>
-                    <input type="text" ref="first_name"/>
+                    <input type="text" ref="firstName"/>
                     {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
                     <button>Set Name</button>
                 </form>
