@@ -15,6 +15,31 @@
 * */
 
 
+var IntroMessage = React.createClass({
+    render: function (){
+        return(
+            <div>
+                <h1>Some H1</h1>
+                <p> Some Paragraph</p>
+            </div>
+        );
+    }
+});
+
+var IntroForm = React.createClass({
+    render : function () {
+        return(
+            <form>
+                <input type="text" ref="firstName"/>
+                {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
+                <button>Set New Name</button>
+            </form>
+        );
+    }
+
+});
+
+
 // creating component for reusability (returns JSX)
 var Intro = React.createClass({
     // default params in case no argument provided by user
@@ -67,12 +92,14 @@ var Intro = React.createClass({
                 <h2> {message + '!'} </h2>
                 <h3>This is React</h3>
                 <p>It is an open-source JavaScript library for building user interfaces.</p>
+                <IntroMessage />
 
                 <form onSubmit={this.onFormButtonClick}>
                     <input type="text" ref="firstName"/>
                     {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
                     <button>Set Name</button>
                 </form>
+                <IntroForm />
             </div>
        );
    }
