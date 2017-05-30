@@ -14,49 +14,27 @@
 *
 * */
 
-
+// subcomponent to display message
 var IntroMessage = React.createClass({
     render: function (){
+       // collect params passed by parent component
+       var name = this.props.name;
+       var message = this.props.message;
+
         return(
             <div>
-                <h1>Some H1</h1>
-                <p> Some Paragraph</p>
+                <h1> Hello, {name}!</h1>
+                <h2> {message + '!'} </h2>
+                <h3>This is React</h3>
+                <p>It is an open-source JavaScript library for building user interfaces.</p>
             </div>
         );
     }
 });
 
+
+// subcomponent for form (rendered inside parent component)
 var IntroForm = React.createClass({
-    render : function () {
-        return(
-            <form>
-                <input type="text" ref="firstName"/>
-                {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
-                <button>Set New Name</button>
-            </form>
-        );
-    }
-
-});
-
-
-// creating component for reusability (returns JSX)
-var Intro = React.createClass({
-    // default params in case no argument provided by user
-    getDefaultProps : function(){
-        return {
-            name : 'John Doe',
-            message : "Welcome"
-        };
-    },
-
-    // set initial state (this would mostly be default prop)
-    getInitialState : function(){
-        return{
-            name : this.props.name
-        };
-    },
-
     // called when submit button hit on form
     onFormButtonClick : function(e) {
         e.preventDefault();
@@ -72,13 +50,43 @@ var Intro = React.createClass({
 
         // if value entered is not empty, then update state
         if (typeof name === 'string' && name.length > 0) {
-            // update state with user entered value
-            this.setState({
-                name: name
-            });
+            // call function inside parent with name parameter
+            this.props.onNewName(name);
         }
     },
+    render : function () {
+        return(
+            <form onSubmit={this.onFormButtonClick}>
+                <input type="text" ref="firstName"/>
+                {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
+                <button>Set New Name</button>
+            </form>
+        );
+    }
+});
 
+
+// parent component (container)
+var Intro = React.createClass({
+    // default params in case no argument provided by user
+    getDefaultProps : function(){
+        return {
+            name : 'John Doe',
+            message : "Welcome"
+        };
+    },
+    // set initial state (this would mostly be default prop or initial user value)
+    getInitialState : function(){
+        return{
+            name : this.props.name
+        };
+    },
+    // called by form subcomponent when form submitted and state is changed
+    handleNewName : function(name) {
+        this.setState({
+            name: name
+        });
+    },
    // render is mandatory function that a component has to implement
    render : function(){
        // this is props
@@ -88,27 +96,22 @@ var Intro = React.createClass({
        // return JSX
        return(
             <div>
-                <h1> Hello, {name}!</h1>
-                <h2> {message + '!'} </h2>
-                <h3>This is React</h3>
-                <p>It is an open-source JavaScript library for building user interfaces.</p>
-                <IntroMessage />
+                {/* re-render this component everytime state changes*/}
+                <IntroMessage name={name} message={message}/>
 
-                <form onSubmit={this.onFormButtonClick}>
-                    <input type="text" ref="firstName"/>
-                    {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
-                    <button>Set Name</button>
-                </form>
-                <IntroForm />
+                {/* pass parent's function reference to child for remote calling*/}
+                <IntroForm onNewName = {this.handleNewName}/>
             </div>
        );
    }
 });
 
-var firstName = "Mike"
+// init name/msg
+var firstName = "Mike";
+var msg = "Welcome to this page";
 
 // for manipulating DOM (Processes JSX returned by <Intro> component which is then converted by Babel to ES5)
 ReactDOM.render(
-    <Intro name={firstName} message="Welcome to this page"/>,
+    <Intro name={firstName} message={msg}/>,
     document.getElementById("app")
 );
