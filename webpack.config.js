@@ -4,7 +4,7 @@
 
 // config file to generate bundle.js
 module.exports = {
-  entry : './js/intro.jsx', // starting point for webpack (it recursively goes to each file it finds in imports)
+  entry : './js/app.jsx', // starting point for webpack (it recursively goes to each file it finds in imports)
   output : {
     path : __dirname, // current directory
     filename : './js/bundle.js' // resultant file name with location (all js will reside in this file)
@@ -29,10 +29,10 @@ module.exports = {
 /*
 Flow :
 
-1) This file will goto intro.jsx
+1) This file will goto app.jsx
 2) See all the imports (react, react-dom)
 3) Get those and parse them untill all recursive files are done
-4) Come back to intro.jsx - parses code through react
+4) Come back to app.jsx - parses code through react
 5) Converts the code to ES2015
 6) Generates a bundle.js inside js folder
 7) When browser invokes index.html - this bundle.js will be served saving bandwidth and load time
