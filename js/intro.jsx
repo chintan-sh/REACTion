@@ -41,25 +41,45 @@ var IntroForm = React.createClass({
 
         // store reference of textbox
         var nameRef = this.refs.firstName;
+        var msgRef = this.refs.userMessage;
 
         // extract value from textbox
         var name = nameRef.value;
+        var msg = msgRef.value;
 
         // make textbox empty after value extracted
         nameRef.value = '';
+        msgRef.value = '';
 
-        // if value entered is not empty, then update state
+        // if name entered is not empty, then update state
         if (typeof name === 'string' && name.length > 0) {
             // call function inside parent with name parameter
             this.props.onNewName(name);
+        }
+
+        // if message entered is not empty, then update state
+        if (typeof name === 'string' && msg.length > 0) {
+            // call function inside parent with name parameter
+            this.props.onNewMessage(msg);
         }
     },
     render : function () {
         return(
             <form onSubmit={this.onFormButtonClick}>
-                <input type="text" ref="firstName"/>
-                {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
-                <button>Set New Name</button>
+                <div>
+                    <label for="firstNameBox">First Name : </label>
+                    <input type="text" name="firstNameBox" placeholder="Enter your first name" ref="firstName"/>
+                </div>
+
+                <div>
+                    <label for="messageBox">Your Message : </label>
+                    <textarea  ref="userMessage" placeholder="Enter your message" name="messageBox"></textarea>
+                </div>
+
+                <div>
+                    {/* button has default type as "submit" hence, when "Set Name" is clicked, form's onSubmit will fire */}
+                    <button>Submit</button>
+                </div>
             </form>
         );
     }
@@ -78,20 +98,26 @@ var Intro = React.createClass({
     // set initial state (this would mostly be default prop or initial user value)
     getInitialState : function(){
         return{
-            name : this.props.name
+            name : this.props.name,
+            message : this.props.message
         };
     },
-    // called by form subcomponent when form submitted and state is changed
+    // called by form subcomponent when form submitted and name state is changed
     handleNewName : function(name) {
         this.setState({
             name: name
         });
     },
+    // called by form subcomponent when form submitted and message state is changed
+    handleNewMessage : function(message) {
+        this.setState({
+            message : message
+        });
+    },
    // render is mandatory function that a component has to implement
    render : function(){
-       // this is props
        var name = this.state.name; // fetch new name every time state changes
-       var message = this.props.message;
+       var message = this.state.message;
 
        // return JSX
        return(
@@ -100,7 +126,7 @@ var Intro = React.createClass({
                 <IntroMessage name={name} message={message}/>
 
                 {/* pass parent's function reference to child for remote calling*/}
-                <IntroForm onNewName = {this.handleNewName}/>
+                <IntroForm onNewName = {this.handleNewName} onNewMessage = {this.handleNewMessage} />
             </div>
        );
    }
