@@ -14,5 +14,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chintan-sh/REACTion/issues"
+  },
+  "dependencies": {
+    "express": "~4.15.3"
   }
 }
