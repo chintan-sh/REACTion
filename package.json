@@ -16,6 +16,8 @@
     "url": "https://github.com/chintan-sh/REACTion/issues"
   },
   "dependencies": {
-    "express": "~4.15.3"
+    "express": "~4.15.3",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
   }
 }
