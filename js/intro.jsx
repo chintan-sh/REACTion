@@ -13,6 +13,9 @@
 * Babel = "Transpiler" to convert ES6 into ES5 so old browsers can run JS
 *
 * */
+var React = require('react'); // residing inside node_modules (installed using npm)
+var ReactDOM = require('react-dom'); //
+
 
 // subcomponent to display message
 var IntroMessage = React.createClass({
