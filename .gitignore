@@ -11,4 +11,7 @@ lib*/
 archive/
 /archive
 archive*/
+/node_modules
+node_modules/
+
 
